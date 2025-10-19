@@ -244,8 +244,8 @@ evdev_button_scroll_button(struct evdev_device *device, uint64_t time, int is_pr
 	}
 
 	if (is_press) {
-		if (evdev_usage_lt(device->scroll.button, EVDEV_BTN_LEFT + 5)) {
-			/* For mouse buttons 1-5 (0x110 to 0x114) we apply a timeout
+		if (evdev_usage_lt(device->scroll.button, EVDEV_BTN_LEFT + 3)) {
+			/* For mouse buttons 1-3 (0x110 to 0x112) we apply a timeout
 			 * before scrolling since the button could also be used for
 			 * regular clicking. */
 			enum timer_flags flags = TIMER_FLAG_NONE;
@@ -269,7 +269,7 @@ evdev_button_scroll_button(struct evdev_device *device, uint64_t time, int is_pr
 						 time + DEFAULT_BUTTON_SCROLL_TIMEOUT,
 						 flags);
 		} else {
-			/* For extra mouse buttons numbered 6 or more (0x115+) we assume
+			/* For extra mouse buttons numbered 4 or more (0x113+) we assume
 			 * it is dedicated exclusively to scrolling, so we don't apply
 			 * the timeout in order to provide immediate scrolling
 			 * responsiveness. */
