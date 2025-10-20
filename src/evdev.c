@@ -54,6 +54,7 @@
 
 #define DEFAULT_WHEEL_CLICK_ANGLE 15
 #define DEFAULT_BUTTON_SCROLL_TIMEOUT ms2us(200)
+#define DEFAULT_BUTTON_SCROLL_SCALE 1.0
 
 enum evdev_device_udev_tags {
 	EVDEV_UDEV_TAG_NONE = 0,
@@ -2744,6 +2745,11 @@ evdev_post_scroll(struct evdev_device *device,
 
 	if (!evdev_is_scrolling(device, LIBINPUT_POINTER_AXIS_SCROLL_HORIZONTAL))
 		event.x = 0.0;
+
+	if (device->scroll.button_scroll_state == BUTTONSCROLL_SCROLLING) {
+		event.x *= DEFAULT_BUTTON_SCROLL_SCALE;
+		event.y *= DEFAULT_BUTTON_SCROLL_SCALE;
+	}
 
 	if (!normalized_is_zero(event)) {
 		uint32_t axes = device->scroll.direction;
